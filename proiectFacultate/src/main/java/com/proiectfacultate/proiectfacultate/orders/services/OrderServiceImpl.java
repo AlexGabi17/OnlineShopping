@@ -6,6 +6,7 @@ import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.orders.repositories.OrderRepository;
 import com.proiectfacultate.proiectfacultate.orders.repositories.OrderRepositoryImpl;
 import com.proiectfacultate.proiectfacultate.orders.repositories.OrderRepositoryJPA;
+import com.proiectfacultate.proiectfacultate.shipments.model.Shipment;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import com.proiectfacultate.proiectfacultate.users.repositories.UserRepository;
 import com.proiectfacultate.proiectfacultate.users.repositories.UserRepositoryJPA;
@@ -44,7 +45,7 @@ public class OrderServiceImpl implements OrderService{
     }
 
     @Override
-    public Order placeOrder(String token, String userName, String comments, List<Long> itemIds) {
+    public Order placeOrder(String token, String userName, String comments, List<Long> itemIds, String shipmentCompanyName) {
         verifyUser(token);
         Order order = new Order();
         order.setOrderDate(LocalDateTime.now());
@@ -61,6 +62,15 @@ public class OrderServiceImpl implements OrderService{
         }
         order.setItems(items);
 
+        //
+
+        //add Shipment info
+
+        Shipment shipment = new Shipment();
+        shipment.setShipmentCompanyName(shipmentCompanyName);
+        shipment.setShipmentDate(LocalDateTime.now().plusDays(3)); // HARDCODED 3 DAYS
+        shipment.setOrder(order);
+        order.setShipment(shipment);
         //
 
         userRepository.save(user);
@@ -87,6 +97,14 @@ public class OrderServiceImpl implements OrderService{
         }
 
         return false;
+    }
+
+    @Override
+    public Order changeComments(String token, Long orderId, String newComment) {
+        Order order = orderRepositoryJPA.findByOrderId(orderId);
+        order.setComments(newComment);
+        return order;
+
     }
 
 

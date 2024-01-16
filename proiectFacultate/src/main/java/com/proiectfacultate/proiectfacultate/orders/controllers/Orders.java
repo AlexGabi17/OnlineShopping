@@ -1,6 +1,7 @@
 package com.proiectfacultate.proiectfacultate.orders.controllers;
 
 import com.proiectfacultate.proiectfacultate.common.requestModel.PlaceOrder;
+import com.proiectfacultate.proiectfacultate.items.model.Item;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.orders.services.OrderService;
 import com.proiectfacultate.proiectfacultate.users.model.User;
@@ -21,7 +22,7 @@ public class Orders {
 
     @PostMapping("/placeorder")
     public ResponseEntity<Order> placeOrder(@RequestHeader(name = "userToken") String token, @RequestBody PlaceOrder parameters){
-        return ResponseEntity.ok(orderService.placeOrder(token, parameters.getUserName(), parameters.getComments(), parameters.getItemIds()));
+        return ResponseEntity.ok(orderService.placeOrder(token, parameters.getUserName(), parameters.getComments(), parameters.getItemIds(), parameters.getShipmentCompanyName()));
     }
 
     @DeleteMapping("/delete")
@@ -38,6 +39,10 @@ public class Orders {
             response.put("message", "Order not found or an error occurred during deletion.");
             return ResponseEntity.ok(response);
         }
+    }
+    @PutMapping("/changeComments")
+    public ResponseEntity<Order> changeComments(@RequestHeader(name = "userToken") String token, @RequestParam Long orderId, @RequestParam String newComment){
+        return ResponseEntity.ok(orderService.changeComments(token, orderId, newComment));
     }
 
 //    @PostMapping("/placeOrder")

@@ -1,5 +1,7 @@
 package com.proiectfacultate.proiectfacultate.common.requestModel;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 
@@ -9,12 +11,14 @@ public class PlaceOrder {
 
     List<Long> itemIds;
 
-    public PlaceOrder(String userName, String comments, List<Long> itemIds) {
+    String shipmentCompanyName;
+
+    public PlaceOrder(String userName, String comments, List<Long> itemIds, String shipmentCompanyName) {
         this.userName = userName;
         this.comments = comments;
         this.itemIds = itemIds;
+        this.shipmentCompanyName = shipmentCompanyName;
     }
-
 
     public String getUserName() {
         return userName;
@@ -32,7 +36,6 @@ public class PlaceOrder {
         this.comments = comments;
     }
 
-
     public List<Long> getItemIds() {
         return itemIds;
     }
@@ -41,17 +44,12 @@ public class PlaceOrder {
         this.itemIds = itemIds;
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        PlaceOrder that = (PlaceOrder) o;
-        return Objects.equals(userName, that.userName) && Objects.equals(comments, that.comments) && Objects.equals(itemIds, that.itemIds);
+    public String getShipmentCompanyName() {
+        return shipmentCompanyName;
     }
 
-    @Override
-    public int hashCode() {
-        return Objects.hash(userName, comments, itemIds);
+    public void setShipmentCompanyName(String shipmentCompanyName) {
+        this.shipmentCompanyName = shipmentCompanyName;
     }
 
     @Override
@@ -60,6 +58,20 @@ public class PlaceOrder {
                 "userName='" + userName + '\'' +
                 ", comments='" + comments + '\'' +
                 ", itemIds=" + itemIds +
+                ", shipmentCompanyName='" + shipmentCompanyName + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        PlaceOrder that = (PlaceOrder) o;
+        return Objects.equals(userName, that.userName) && Objects.equals(comments, that.comments) && Objects.equals(itemIds, that.itemIds) && Objects.equals(shipmentCompanyName, that.shipmentCompanyName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(userName, comments, itemIds, shipmentCompanyName);
     }
 }

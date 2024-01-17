@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -25,15 +26,19 @@ public class PaymentMethod {
     @Column(columnDefinition = "serial")
     private Long paymentMethodId;
 
+    @NotNull
     @Column(name = "cardNumber")
     private Long cardNumber;
 
+    @NotNull
     @Column(name = "cardUserName")
     private String cardUserName;
 
+    @NotNull
     @Column(name = "expirationDate")
     private String expirationDate;
 
+    @NotNull
     @Column(name = "cvvnumber")
     private int cvvNumber;
 

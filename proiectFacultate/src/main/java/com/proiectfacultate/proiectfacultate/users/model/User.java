@@ -1,9 +1,11 @@
 package com.proiectfacultate.proiectfacultate.users.model;
 
+import com.proiectfacultate.proiectfacultate.discounts.model.Discount;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.paymentMethods.model.PaymentMethod;
 import com.proiectfacultate.proiectfacultate.shipments.model.Shipment;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
 
 import java.util.List;
@@ -17,12 +19,15 @@ public class User {
     @Column(columnDefinition = "serial")
     private Long id;
 
+    @NotNull
     @Column(name = "userName", unique = true)
     private String userName;
 
+    @NotNull
     @Column(name = "password")
     private String password;
 
+    @NotNull
     @Column(name = "role")
     private String role;
 
@@ -32,18 +37,23 @@ public class User {
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Order> orders;
 
+    @OneToMany(targetEntity = Discount.class, mappedBy = "user", fetch = FetchType.EAGER, orphanRemoval = true)
+    @Cascade({org.hibernate.annotations.CascadeType.ALL})
+    private List<Discount> discounts;
+
     @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private PaymentMethod paymentMethod;
 
     public User() {
     }
 
-    public User(Long id, String userName, String password, String role, List<Order> orders, PaymentMethod paymentMethod) {
+    public User(Long id, String userName, String password, String role, List<Order> orders, List<Discount> discounts, PaymentMethod paymentMethod) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.role = role;
         this.orders = orders;
+        this.discounts = discounts;
         this.paymentMethod = paymentMethod;
     }
 
@@ -97,17 +107,25 @@ public class User {
         this.paymentMethod = paymentMethod;
     }
 
+    public List<Discount> getDiscounts() {
+        return discounts;
+    }
+
+    public void setDiscounts(List<Discount> discounts) {
+        this.discounts = discounts;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(orders, user.orders) && Objects.equals(paymentMethod, user.paymentMethod);
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(orders, user.orders) && Objects.equals(discounts, user.discounts) && Objects.equals(paymentMethod, user.paymentMethod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, password, role, orders, paymentMethod);
+        return Objects.hash(id, userName, password, role, orders, discounts, paymentMethod);
     }
 
     @Override
@@ -118,6 +136,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", orders=" + orders +
+                ", discounts=" + discounts +
                 ", paymentMethod=" + paymentMethod +
                 '}';
     }

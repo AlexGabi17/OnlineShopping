@@ -6,6 +6,7 @@ import com.proiectfacultate.proiectfacultate.items.model.Item;
 import com.proiectfacultate.proiectfacultate.shipments.model.Shipment;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 import org.hibernate.annotations.Cascade;
 
 import java.time.LocalDate;
@@ -22,8 +23,10 @@ public class Order {
     @Column(columnDefinition = "serial")
     private Long orderId;
 
+    @NotNull
     @Column(name = "orderDate")
     private LocalDateTime orderDate;
+
 
     @Column(name = "comments")
     private String comments;

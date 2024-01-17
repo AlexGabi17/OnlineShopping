@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotNull;
 
 import java.time.LocalDateTime;
 import java.util.Objects;
@@ -17,9 +18,11 @@ public class Shipment {
     @Column(columnDefinition = "serial")
     private Long shipmentId;
 
+    @NotNull
     @Column(name = "shipmentCompanyName")
     private String shipmentCompanyName;
 
+    @NotNull
     @Column(name = "shipmentDate")
     private LocalDateTime shipmentDate;
 

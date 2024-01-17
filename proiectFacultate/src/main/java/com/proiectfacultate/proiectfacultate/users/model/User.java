@@ -1,6 +1,8 @@
 package com.proiectfacultate.proiectfacultate.users.model;
 
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
+import com.proiectfacultate.proiectfacultate.paymentMethods.model.PaymentMethod;
+import com.proiectfacultate.proiectfacultate.shipments.model.Shipment;
 import jakarta.persistence.*;
 import org.hibernate.annotations.Cascade;
 
@@ -15,7 +17,7 @@ public class User {
     @Column(columnDefinition = "serial")
     private Long id;
 
-    @Column(name = "userName")
+    @Column(name = "userName", unique = true)
     private String userName;
 
     @Column(name = "password")
@@ -30,15 +32,19 @@ public class User {
     @Cascade({org.hibernate.annotations.CascadeType.ALL})
     private List<Order> orders;
 
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
+    private PaymentMethod paymentMethod;
+
     public User() {
     }
 
-    public User(Long id, String userName, String password, String role, List<Order> orders) {
+    public User(Long id, String userName, String password, String role, List<Order> orders, PaymentMethod paymentMethod) {
         this.id = id;
         this.userName = userName;
         this.password = password;
         this.role = role;
         this.orders = orders;
+        this.paymentMethod = paymentMethod;
     }
 
 
@@ -83,17 +89,25 @@ public class User {
         this.orders = orders;
     }
 
+    public PaymentMethod getPaymentMethod() {
+        return paymentMethod;
+    }
+
+    public void setPaymentMethod(PaymentMethod paymentMethod) {
+        this.paymentMethod = paymentMethod;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         User user = (User) o;
-        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(orders, user.orders);
+        return Objects.equals(id, user.id) && Objects.equals(userName, user.userName) && Objects.equals(password, user.password) && Objects.equals(role, user.role) && Objects.equals(orders, user.orders) && Objects.equals(paymentMethod, user.paymentMethod);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, userName, password, role, orders);
+        return Objects.hash(id, userName, password, role, orders, paymentMethod);
     }
 
     @Override
@@ -104,6 +118,7 @@ public class User {
                 ", password='" + password + '\'' +
                 ", role='" + role + '\'' +
                 ", orders=" + orders +
+                ", paymentMethod=" + paymentMethod +
                 '}';
     }
 }

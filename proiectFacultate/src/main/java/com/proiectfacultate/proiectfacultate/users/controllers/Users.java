@@ -1,11 +1,10 @@
 package com.proiectfacultate.proiectfacultate.users.controllers;
 
-import com.proiectfacultate.proiectfacultate.common.requestModel.PlaceOrder;
+import com.proiectfacultate.proiectfacultate.common.requestModel.SignUpModel;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import com.proiectfacultate.proiectfacultate.users.model.UserResponse;
 import com.proiectfacultate.proiectfacultate.users.services.UserService;
-import org.aspectj.weaver.ast.Or;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,8 +22,8 @@ public class Users {
     }
 
     @PostMapping
-    public ResponseEntity<User> signUp(@RequestBody User user){
-        return ResponseEntity.ok(userService.createUser(user));
+    public ResponseEntity<User> signUp(@RequestBody SignUpModel signUpModel){
+        return ResponseEntity.ok(userService.createUser(signUpModel));
     }
 
     @PostMapping("/login")

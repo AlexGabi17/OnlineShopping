@@ -1,5 +1,6 @@
 package com.proiectfacultate.proiectfacultate.users.services;
 
+import com.proiectfacultate.proiectfacultate.common.requestModel.SignUpModel;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import com.proiectfacultate.proiectfacultate.users.model.UserResponse;
@@ -7,7 +8,7 @@ import com.proiectfacultate.proiectfacultate.users.model.UserResponse;
 import java.util.List;
 
 public interface UserService {
-    User createUser(User user);
+    User createUser(SignUpModel signUpModel);
 
     UserResponse login(User user);
 

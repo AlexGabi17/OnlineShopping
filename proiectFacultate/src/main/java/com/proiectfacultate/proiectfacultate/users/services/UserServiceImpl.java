@@ -1,6 +1,8 @@
 package com.proiectfacultate.proiectfacultate.users.services;
 
+import com.proiectfacultate.proiectfacultate.common.requestModel.SignUpModel;
 import com.proiectfacultate.proiectfacultate.orders.model.Order;
+import com.proiectfacultate.proiectfacultate.paymentMethods.model.PaymentMethod;
 import com.proiectfacultate.proiectfacultate.users.model.User;
 import com.proiectfacultate.proiectfacultate.users.model.UserResponse;
 import com.proiectfacultate.proiectfacultate.users.repositories.UserRepositoryImpl;
@@ -21,7 +23,21 @@ public class UserServiceImpl implements UserService {
         this.userRepository = userRepository;
     }
     @Override
-    public User createUser(User user) {
+    public User createUser(SignUpModel signUpModel) {
+        User user = new User();
+        PaymentMethod paymentMethod = new PaymentMethod();
+        user.setUserName(signUpModel.getUserName());
+        user.setPassword(signUpModel.getPassword());
+        user.setRole(signUpModel.getRole());
+
+        paymentMethod.setCardUserName(signUpModel.getCardUserName());
+        paymentMethod.setCardNumber(signUpModel.getCardNumber());
+        paymentMethod.setCvvNumber(signUpModel.getCvvNumber());
+        paymentMethod.setExpirationDate(signUpModel.getExpirationDate());
+        paymentMethod.setUser(user);
+
+        user.setPaymentMethod(paymentMethod);
+
         return userRepository.save(user);
     }
 
